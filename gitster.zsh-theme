@@ -38,7 +38,7 @@ if [[ -n "$SSH_CONNECTION" ]]; then
   PS1='%F{white}%n@%m '
 fi
 PS1+='%B%(?:%F{green}:%F{red})%{%G'
-if [[ -n "UNICODE_SUPPORT" ]]; then
+if [[ -n "$UNICODE_SUPPORT" ]]; then
   PS1+='➜'
 else
   PS1+='>'
