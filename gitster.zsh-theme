@@ -33,6 +33,16 @@ if (( ${+functions[git-info]} )); then
   autoload -Uz add-zsh-hook && add-zsh-hook precmd git-info
 fi
 
+prompt-pwd-tempe() {
+  emulate -L zsh -o EXTENDED_GLOB
+  local cwd=${PWD:A} tmpbase=${TMPDIR:A}
+  if [[ -n $tmpbase && $cwd == $tmpbase/tmp.[^/]##(|/*) ]]; then
+    print -n "${cwd#$tmpbase/tmp.}"
+  else
+    prompt-pwd
+  fi
+}
+
 PS1=''
 if [[ -n "$SSH_CONNECTION" ]]; then
   PS1='%F{white}%n@%m '
@@ -43,5 +53,5 @@ if [[ -n "$UNICODE_SUPPORT" ]]; then
 else
   PS1+='>'
 fi
-PS1+='%} %F{white}$(prompt-pwd)${(e)git_info[prompt]}%f%b '
+PS1+='%} %F{white}$(prompt-pwd-tempe)${(e)git_info[prompt]}%f%b '
 unset RPS1
